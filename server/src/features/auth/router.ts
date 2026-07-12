@@ -3,4 +3,4 @@ import { signin } from './controller.js'
 
 export const authRouter: Router = express.Router()
 
-authRouter.get('/signin', signin)
+authRouter.post('/signin', signin)
