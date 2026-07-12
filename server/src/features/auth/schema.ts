@@ -1,5 +1,6 @@
 import {
     boolean,
+    index,
     pgEnum,
     pgTable,
     text,
@@ -33,4 +34,9 @@ export const usersTable = pgTable("users", {
     lastLoginAt: timestamp("last_login_at"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+},
+    (table) => [
+        index("users_role_idx").on(table.roleId),
+        index("users_active_idx").on(table.isActive),
+    ]
+);
