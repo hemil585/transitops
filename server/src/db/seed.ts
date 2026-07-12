@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import { randomUUID } from "crypto";
 
 import { rolesTable, usersTable } from "./schema.js";
+import { vehiclesTable } from "../features/vehicle/schema.js";
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL!,
@@ -74,6 +75,64 @@ async function seed() {
             password: "Password@123",
             phone: "+1-555-1004",
             roleId: financialAnalystRoleId,
+        },
+    ]);
+
+    await db.insert(vehiclesTable).values([
+        {
+            registrationNumber: "MH12AB1001",
+            name: "Van-01",
+            model: "Ford Transit",
+            type: "van",
+            maxLoadCapacity: 1200,
+            odometer: 18500,
+            acquisitionCost: "42000.00",
+            region: "North",
+            status: "available",
+        },
+        {
+            registrationNumber: "MH12AB1002",
+            name: "Truck-01",
+            model: "Tata Prima",
+            type: "truck",
+            maxLoadCapacity: 18000,
+            odometer: 74250,
+            acquisitionCost: "95000.00",
+            region: "West",
+            status: "on_trip",
+        },
+        {
+            registrationNumber: "MH12AB1003",
+            name: "Pickup-01",
+            model: "Toyota Hilux",
+            type: "pickup",
+            maxLoadCapacity: 1000,
+            odometer: 30210,
+            acquisitionCost: "38000.00",
+            region: "South",
+            status: "in_shop",
+        },
+        {
+            registrationNumber: "MH12AB1004",
+            name: "Bus-01",
+            model: "Volvo B8R",
+            type: "bus",
+            maxLoadCapacity: 8000,
+            odometer: 120500,
+            acquisitionCost: "145000.00",
+            region: "East",
+            status: "available",
+        },
+        {
+            registrationNumber: "MH12AB1005",
+            name: "Car-01",
+            model: "Toyota Corolla",
+            type: "car",
+            maxLoadCapacity: 450,
+            odometer: 65000,
+            acquisitionCost: "25000.00",
+            region: "Central",
+            status: "retired",
         },
     ]);
 

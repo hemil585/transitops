@@ -1,6 +1,7 @@
+CREATE TYPE "public"."role" AS ENUM('fleet_manager', 'dispatcher', 'safety_officer', 'financial_analyst');--> statement-breakpoint
 CREATE TABLE "roles" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"name" text NOT NULL,
+	"name" "role" NOT NULL,
 	"description" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "roles_name_unique" UNIQUE("name")
@@ -21,4 +22,6 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE restrict ON UPDATE no action;
+ALTER TABLE "users" ADD CONSTRAINT "users_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "users_role_idx" ON "users" USING btree ("role_id");--> statement-breakpoint
+CREATE INDEX "users_active_idx" ON "users" USING btree ("is_active");
