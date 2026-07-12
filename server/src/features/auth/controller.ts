@@ -23,8 +23,8 @@ export const signin = async (req: Request, res: Response) => {
             const isValid = comparePassword(password, user.password)
             if (isValid) {
 
-                const jwt = generateJWT({ userId: user.id }, {
-                    expiresIn: 7 * 24 * 60 * 60 * 1000
+                const jwt = generateJWT({ userId: user.id, role: user.role.name }, {
+                    expiresIn: "7d"
                 })
 
                 return res.status(200).json({

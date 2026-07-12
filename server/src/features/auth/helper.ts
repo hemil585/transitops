@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { env } from '../../config/env.js';
-import type { TokenPayload } from './validation.js';
+import { tokenPayloadSchema, type TokenPayload } from './validation.js';
 
 export function comparePassword(enteredPassword: string, password: string): boolean {
     return enteredPassword === password
@@ -11,9 +11,7 @@ export function generateJWT(payload: TokenPayload, options: jwt.SignOptions): st
 }
 
 export function verifyJWT(token: string) {
-    try {
-        return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
-    } catch (error) {
-        return false
-    }
+    const payload = jwt.verify(token, env.JWT_SECRET);
+
+    return tokenPayloadSchema.parse(payload);
 }

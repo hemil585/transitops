@@ -1,14 +1,22 @@
 import {
     boolean,
+    pgEnum,
     pgTable,
     text,
     timestamp,
     uuid,
 } from "drizzle-orm/pg-core";
 
+export const roleEnum = pgEnum("role", [
+    "fleet_manager",
+    "dispatcher",
+    "safety_officer",
+    "financial_analyst",
+]);
+
 export const rolesTable = pgTable("roles", {
     id: uuid("id").defaultRandom().primaryKey(),
-    name: text("name").notNull().unique(),
+    name: roleEnum("name").notNull().unique(),
     description: text("description"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });

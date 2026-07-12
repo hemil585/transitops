@@ -7,9 +7,17 @@ export const signInSchema = z.object({
 
 export type SignInInput = z.infer<typeof signInSchema>;
 
-const tokenPayloadSchema = z.object({
-    userId: z.string().optional(),
-    refreshToken: z.string().optional(),
+export const roleSchema = z.enum([
+    "fleet_manager",
+    "dispatcher",
+    "safety_officer",
+    "financial_analyst",
+]);
+
+export const tokenPayloadSchema = z.object({
+    userId: z.string(),
+    role: roleSchema,
 });
 
 export type TokenPayload = z.infer<typeof tokenPayloadSchema>;
+export type Role = z.infer<typeof roleSchema>;
