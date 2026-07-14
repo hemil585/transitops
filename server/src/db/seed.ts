@@ -3,8 +3,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { randomUUID } from "crypto";
 
-import { rolesTable, usersTable } from "./schema.js";
+import { driversTable, rolesTable, usersTable } from "./schema.js";
 import { vehiclesTable } from "../features/vehicle/schema.js";
+import { sql } from "drizzle-orm";
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL!,
@@ -13,6 +14,17 @@ const pool = new Pool({
 const db = drizzle(pool);
 
 async function seed() {
+    console.log("Cleaning database...");
+
+    await db.execute(sql`
+        TRUNCATE TABLE
+            drivers,
+            vehicles,
+            users,
+            roles
+        RESTART IDENTITY CASCADE;
+    `);
+
     console.log("Seeding database...");
 
     const fleetManagerRoleId = randomUUID();
@@ -133,6 +145,64 @@ async function seed() {
             acquisitionCost: "25000.00",
             region: "Central",
             status: "retired",
+        },
+    ]);
+
+    await db.insert(driversTable).values([
+        {
+            firstName: "John",
+            lastName: "Smith",
+            email: "john.smith@transitops.com",
+            phone: "+1-555-2001",
+            licenseNumber: "DL100001",
+            licenseCategory: "heavy_goods_vehicle",
+            licenseExpiryDate: "2029-06-15",
+            safetyScore: 98,
+            status: "available",
+        },
+        {
+            firstName: "Maria",
+            lastName: "Garcia",
+            email: "maria.garcia@transitops.com",
+            phone: "+1-555-2002",
+            licenseNumber: "DL100002",
+            licenseCategory: "light_motor_vehicle",
+            licenseExpiryDate: "2028-11-20",
+            safetyScore: 95,
+            status: "on_trip",
+        },
+        {
+            firstName: "Ahmed",
+            lastName: "Hassan",
+            email: "ahmed.hassan@transitops.com",
+            phone: "+1-555-2003",
+            licenseNumber: "DL100003",
+            licenseCategory: "passenger_vehicle",
+            licenseExpiryDate: "2027-09-12",
+            safetyScore: 92,
+            status: "off_duty",
+        },
+        {
+            firstName: "Sofia",
+            lastName: "Martinez",
+            email: "sofia.martinez@transitops.com",
+            phone: "+1-555-2004",
+            licenseNumber: "DL100004",
+            licenseCategory: "heavy_goods_vehicle",
+            licenseExpiryDate: "2030-02-18",
+            safetyScore: 100,
+            status: "available",
+        },
+        {
+            firstName: "Lucas",
+            lastName: "Muller",
+            email: "lucas.muller@transitops.com",
+            phone: "+1-555-2005",
+            licenseNumber: "DL100005",
+            licenseCategory: "light_motor_vehicle",
+            licenseExpiryDate: "2026-12-31",
+            safetyScore: 78,
+            status: "suspended",
         },
     ]);
 
