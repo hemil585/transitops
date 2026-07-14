@@ -13,8 +13,6 @@ import { createVehicleSchema, updateVehicleSchema } from "./schema.js";
 export const create = async (req: Request, res: Response) => {
     try {
         const validation = createVehicleSchema.safeParse(req.body);
-        console.log(validation);
-
 
         if (!validation.success) {
             return res.status(400).json({
@@ -84,8 +82,6 @@ export const getOne = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
     try {        
         const validation = updateVehicleSchema.safeParse(req.body);
-        console.log(validation);
-
 
         if (!validation.success) {
             return res.status(400).json({
