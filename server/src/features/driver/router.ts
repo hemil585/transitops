@@ -1,7 +1,7 @@
-import Express from "express"
+import Express, { Router } from "express"
 import * as controller from './controller.js'
 
-const driverRouter = Express.Router()
+export const driverRouter:Router = Express.Router()
 
 driverRouter.get('/', controller.getAll)
 
